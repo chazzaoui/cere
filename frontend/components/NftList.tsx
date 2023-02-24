@@ -1,15 +1,16 @@
 import {
   Alert,
   AlertIcon,
-  Box,
-  Flex,
-  Image,
   SimpleGrid,
   Text,
 } from '@chakra-ui/react'
 import { Result } from '@ethersproject/abi'
 import { IPFSHTTPClient } from 'ipfs-http-client'
 import { useEffect, useState } from 'react'
+import { AnimatePresence, AnimateSharedLayout } from 'framer-motion';
+
+import Card from './nftCard'
+import BiggerCard from './ModalNft';
 
 interface NftListProps {
   address?: string | null
@@ -29,6 +30,8 @@ export const NftList = ({
   nftTokenUris,
 }: NftListProps): JSX.Element => {
   const [nfts, setNfts] = useState<Array<NftMetadataType>>([])
+  const [selectedId, setSelectedId] = useState<string>('');
+
 
   useEffect(() => {
     const fetchNftData = async (ipfsHash: string) => {
@@ -80,35 +83,25 @@ export const NftList = ({
   }
 
   return (
-    <div>
-      <SimpleGrid my="6" columns={[1, 1, 2]} gap="6">
+    <AnimateSharedLayout>
+      <SimpleGrid my="6" columns={3} gap="6">
         {nfts.map((nft) => {
           return (
-            <Flex
-              key={nft.image}
-              p="4"
-              gap="4"
-              alignItems="center"
-              backgroundColor="white"
-              border="1px"
-              borderColor="gray.300"
-            >
-              <Image
-                boxSize={[100, 100, 200]}
-                objectFit="cover"
-                src={nft.image}
-                alt={nft.name}
-              />
-              <Box>
-                <Text fontSize="lg" fontWeight="semibold">
-                  {nft.name}
-                </Text>
-                <Text>{nft.description}</Text>
-              </Box>
-            </Flex>
+            <div onClick={() => setSelectedId(nft.image)}>
+              <Card name={nft.description} cardId={nft.image} url={nft.image} />
+            </div>
           )
         })}
       </SimpleGrid>
-    </div>
+      <AnimatePresence>
+        {selectedId ? (
+          <BiggerCard
+            onClick={setSelectedId}
+            id={selectedId}
+            url={selectedId}
+          />
+        ) : null}
+      </AnimatePresence>
+    </AnimateSharedLayout>
   )
 }

@@ -20,7 +20,6 @@ Also inspired by [Nader Dabit's blog post](https://dev.to/dabit3/the-complete-gu
 It is recommended to use Yarn to avoid dependency collisions: [Yarn](https://classic.yarnpkg.com/en/docs/install)
 
 ```bash
-git clone https://github.com/ChangoMan/nextjs-ethereum-starter.git
 cd nextjs-ethereum-starter
 
 yarn install
@@ -57,4 +56,5 @@ yarn dev
 This will start up the Next.js development server. Your site will be available at http://localhost:3000/
 
 To interact with the local contract, be sure to switch your MetaMask Network to `Localhost 8545`
+
 # cere-codechallenge
